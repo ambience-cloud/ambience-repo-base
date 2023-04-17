@@ -1,0 +1,17 @@
+{
+  "_id": {
+    "$oid": "643cb9d7d5149a175a746af9"
+  },
+  "name": "Env",
+  "enabled": true,
+  "version": {
+    "$numberInt": "1"
+  },
+  "content": "elixir.notification {\n    location = \"Ambience Local\"\n    env = \"Trial\"\n    email-to = \"xxx@abc.com\"\n }",
+  "createdBy": "admin",
+  "createdAt": {
+    "$date": {
+      "$numberLong": "1681701335613"
+    }
+  }
+}

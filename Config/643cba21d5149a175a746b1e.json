@@ -1,0 +1,17 @@
+{
+  "_id": {
+    "$oid": "643cba21d5149a175a746b1e"
+  },
+  "name": "S3 Config",
+  "enabled": false,
+  "version": {
+    "$numberInt": "1"
+  },
+  "content": " aws.s3 {\n      region = \"ap-southeast-1\"\n      bucket = \"ambience-cloud-demo\"\n      path = \"[s3 folder path as xxx/xx]\"\n      accessId = \"[aws_access_key_id]\"\n      secret = \"[aws_secret_access_key encrypted]\" \n      roleArn=\"arn:aws:iam::[aws account id]:role/[iam role allow s3 access]\"\n      roleSessionName =\"ambience-s3-session\"\n      stsServiceEndpoint = \"https://sts.ap-southeast-1.amazonaws.com\"\n      \n}",
+  "createdBy": "admin",
+  "createdAt": {
+    "$date": {
+      "$numberLong": "1681701409294"
+    }
+  }
+}

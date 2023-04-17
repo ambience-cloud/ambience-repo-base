@@ -1,0 +1,321 @@
+{
+  "_id": "17053ed4-819f-4491-a09f-05e527891824",
+  "name": "housekeepingSchedulerTaskMonitoring",
+  "description": "",
+  "owner": "643cb981d5149a175a746a1b",
+  "access": {
+    "roles": []
+  },
+  "enabled": true,
+  "chains": {
+    "emailTriggerInProgress": {
+      "name": "emailTriggerInProgress",
+      "description": "",
+      "group": "",
+      "icon": "link",
+      "color": "",
+      "steps": [
+        {
+          "stepType": {
+            "id": "structure.ChainCall"
+          },
+          "name": "Chain Call Config",
+          "description": "",
+          "icon": "",
+          "color": "",
+          "json": {
+            "chainName": "Config"
+          },
+          "disabled": false,
+          "debug": false
+        },
+        {
+          "stepType": {
+            "id": "structure.ChainCall"
+          },
+          "name": "Chain Call getInProgressTriggers",
+          "description": "",
+          "icon": "",
+          "color": "",
+          "json": {
+            "chainName": "getInProgressTriggers"
+          },
+          "disabled": false,
+          "debug": false
+        },
+        {
+          "stepType": {
+            "id": "json.Reader"
+          },
+          "name": "JSON Reader",
+          "description": "",
+          "icon": "",
+          "color": "",
+          "json": {
+            "merge": "none"
+          },
+          "disabled": false,
+          "debug": false
+        },
+        {
+          "stepType": {
+            "id": "binary.BytesToString"
+          },
+          "name": "Bytes to String",
+          "description": "",
+          "icon": "",
+          "color": "",
+          "json": {
+            "field": "bytes",
+            "encoding": "utf-8",
+            "result": "triggerName"
+          },
+          "disabled": false,
+          "debug": false
+        },
+        {
+          "stepType": {
+            "id": "structure.Discard"
+          },
+          "name": "Discard Fields",
+          "description": "",
+          "icon": "",
+          "color": "",
+          "json": {
+            "fields": [
+              "triggerLastRun",
+              "triggerNextRun",
+              "triggerEnabled",
+              "triggerInProgress",
+              "triggerId"
+            ]
+          },
+          "disabled": false,
+          "debug": false
+        },
+        {
+          "stepType": {
+            "id": "string.Merge"
+          },
+          "name": "String Merge",
+          "description": "",
+          "icon": "",
+          "color": "",
+          "json": {
+            "field": "triggerName",
+            "separator": ", "
+          },
+          "disabled": false,
+          "debug": false
+        },
+        {
+          "stepType": {
+            "id": "mail.ComposeMail"
+          },
+          "name": "Compose Mail",
+          "description": "",
+          "icon": "",
+          "color": "",
+          "json": {
+            "body": "Tasks reset in Scheduler\n> ${triggerName}",
+            "includeAttachment": false,
+            "fold": false
+          },
+          "disabled": false,
+          "debug": false
+        },
+        {
+          "stepType": {
+            "id": "mail.SendMail"
+          },
+          "name": "Send Mail",
+          "description": "",
+          "icon": "",
+          "color": "",
+          "json": {
+            "to": "${email-to}",
+            "cc": "",
+            "bcc": "",
+            "subject": "${loc}-${env} - Scheduler Tasks In Progress"
+          },
+          "disabled": false,
+          "debug": false
+        }
+      ],
+      "testInput": []
+    },
+    "resetInProgressTriggers": {
+      "name": "resetInProgressTriggers",
+      "description": "",
+      "group": "",
+      "icon": "link",
+      "color": "",
+      "steps": [
+        {
+          "stepType": {
+            "id": "structure.ChainCall"
+          },
+          "name": "Chain Call",
+          "description": "",
+          "icon": "",
+          "color": "",
+          "json": {
+            "chainName": "getInProgressTriggers"
+          },
+          "disabled": false,
+          "debug": false
+        },
+        {
+          "stepType": {
+            "id": "json.Reader"
+          },
+          "name": "JSON Reader",
+          "description": "",
+          "icon": "",
+          "color": "",
+          "json": {
+            "merge": "none"
+          },
+          "disabled": false,
+          "debug": false
+        },
+        {
+          "stepType": {
+            "id": "scheduler.ResetInProgress"
+          },
+          "name": "Reset In Progress",
+          "description": "",
+          "icon": "",
+          "color": "",
+          "json": {
+            "nameField": "triggerName"
+          },
+          "disabled": false,
+          "debug": false
+        }
+      ],
+      "testInput": []
+    },
+    "getInProgressTriggers": {
+      "name": "getInProgressTriggers",
+      "description": "",
+      "group": "",
+      "icon": "link",
+      "color": "",
+      "steps": [
+        {
+          "stepType": {
+            "id": "scheduler.GetTrigger"
+          },
+          "name": "Get Triggers",
+          "description": "",
+          "icon": "",
+          "color": "",
+          "json": {},
+          "disabled": false,
+          "debug": false
+        },
+        {
+          "stepType": {
+            "id": "boolean.Retain"
+          },
+          "name": "Boolean Retain",
+          "description": "",
+          "icon": "",
+          "color": "",
+          "json": {
+            "field1": "triggerEnabled"
+          },
+          "disabled": false,
+          "debug": false
+        },
+        {
+          "stepType": {
+            "id": "boolean.Retain"
+          },
+          "name": "Boolean Retain",
+          "description": "",
+          "icon": "",
+          "color": "",
+          "json": {
+            "field1": "triggerInProgress"
+          },
+          "disabled": false,
+          "debug": false
+        }
+      ],
+      "testInput": []
+    },
+    "Config": {
+      "name": "Config",
+      "description": "",
+      "group": "",
+      "icon": "link",
+      "color": "",
+      "steps": [
+        {
+          "stepType": {
+            "id": "config.ReadString"
+          },
+          "name": "Read Config String",
+          "description": "",
+          "icon": "",
+          "color": "",
+          "json": {
+            "key": "elixir.notification.location",
+            "field": "loc"
+          },
+          "disabled": false,
+          "debug": false
+        },
+        {
+          "stepType": {
+            "id": "config.ReadString"
+          },
+          "name": "Read Config String",
+          "description": "",
+          "icon": "",
+          "color": "",
+          "json": {
+            "key": "elixir.notification.env",
+            "field": "env"
+          },
+          "disabled": false,
+          "debug": false
+        },
+        {
+          "stepType": {
+            "id": "config.ReadString"
+          },
+          "name": "Read Config String",
+          "description": "",
+          "icon": "",
+          "color": "",
+          "json": {
+            "key": "elixir.notification.email-to",
+            "field": "email-to"
+          },
+          "disabled": false,
+          "debug": false
+        },
+        {
+          "stepType": {
+            "id": "config.ReadString"
+          },
+          "name": "Read Config String",
+          "description": "",
+          "icon": "",
+          "color": "",
+          "json": {
+            "key": "elixir.notification.email-from",
+            "field": "email-from"
+          },
+          "disabled": false,
+          "debug": false
+        }
+      ],
+      "testInput": []
+    }
+  },
+  "imports": []
+}

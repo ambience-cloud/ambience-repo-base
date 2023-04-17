@@ -1,0 +1,51 @@
+{
+  "_id": "c5c604f5-50b0-416a-8525-4b223e7a51a0",
+  "name": "clear logs",
+  "description": "Run general Housekeeping Job.",
+  "enabled": true,
+  "owner": "643cb981d5149a175a746a1b",
+  "constraints": {
+    "timeZone": "",
+    "calendarsInclusive": [],
+    "calendarsExclusive": []
+  },
+  "info": {
+    "cron": {
+      "CronDaily": {
+        "time": {
+          "hour": {
+            "$numberInt": "0"
+          },
+          "minute": {
+            "$numberInt": "0"
+          },
+          "second": {
+            "$numberInt": "0"
+          }
+        }
+      }
+    },
+    "misfireInstruction": {
+      "value": "DoNothing"
+    }
+  },
+  "job": {
+    "chainset": "7bf2e43b-7d19-4340-8f0c-99a6cf0a1ce5",
+    "chain": "clearLogs",
+    "parameters": "{}"
+  },
+  "status": {
+    "previousFireTime": null,
+    "nextFireTime": {
+      "ms": {
+        "$numberLong": "1681776000000"
+      }
+    },
+    "inProgress": false
+  },
+  "lastModified": {
+    "$date": {
+      "$numberLong": "1681721094260"
+    }
+  }
+}

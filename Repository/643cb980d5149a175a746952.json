@@ -1,0 +1,13 @@
+{
+  "_id": {
+    "$oid": "643cb980d5149a175a746952"
+  },
+  "path": "/Temp",
+  "type": "folder",
+  "acl": [
+    {
+      "by": "*",
+      "write": false
+    }
+  ]
+}

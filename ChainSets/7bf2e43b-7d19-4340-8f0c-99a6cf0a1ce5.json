@@ -1,0 +1,332 @@
+{
+  "_id": "7bf2e43b-7d19-4340-8f0c-99a6cf0a1ce5",
+  "name": "housekeepingGeneral",
+  "description": "",
+  "owner": "643cb981d5149a175a746a1b",
+  "access": {
+    "roles": []
+  },
+  "enabled": true,
+  "chains": {
+    "getDatabaseStatisticData": {
+      "name": "getDatabaseStatisticData",
+      "description": "",
+      "group": "",
+      "icon": "link",
+      "color": "",
+      "steps": [
+        {
+          "stepType": {
+            "id": "amb.ReadDatabaseStats"
+          },
+          "name": "Read Database Statistics",
+          "description": "",
+          "icon": "",
+          "color": "",
+          "json": {
+            "database": "eno"
+          },
+          "disabled": false,
+          "debug": false
+        },
+        {
+          "stepType": {
+            "id": "json.Reader"
+          },
+          "name": "JSON Reader",
+          "description": "",
+          "icon": "",
+          "color": "",
+          "json": {
+            "merge": "none"
+          },
+          "disabled": false,
+          "debug": false
+        },
+        {
+          "stepType": {
+            "id": "structure.Discard"
+          },
+          "name": "Discard Fields",
+          "description": "",
+          "icon": "",
+          "color": "",
+          "json": {
+            "fields": [
+              "scaleFactor",
+              "ok",
+              "indexBuilds",
+              "IndexDetails",
+              "wiredTiger",
+              "indexDetails",
+              "capped",
+              "nindexes",
+              "indexSizes"
+            ]
+          },
+          "disabled": false,
+          "debug": false
+        },
+        {
+          "stepType": {
+            "id": "number.float.Divide"
+          },
+          "name": "Float Divide",
+          "description": "",
+          "icon": "",
+          "color": "",
+          "json": {
+            "field": "size",
+            "output": "sizeMB",
+            "value": "1000000"
+          },
+          "disabled": false,
+          "debug": false
+        },
+        {
+          "stepType": {
+            "id": "number.float.Divide"
+          },
+          "name": "Float Divide",
+          "description": "",
+          "icon": "",
+          "color": "",
+          "json": {
+            "field": "storageSize",
+            "output": "storageSizeMB",
+            "value": "1000000"
+          },
+          "disabled": false,
+          "debug": false
+        }
+      ],
+      "testInput": []
+    },
+    "clearLogs": {
+      "name": "clearLogs",
+      "description": "",
+      "group": "",
+      "icon": "link",
+      "color": "",
+      "steps": [
+        {
+          "stepType": {
+            "id": "amb.CleanAgenda"
+          },
+          "name": "Clean Agenda",
+          "description": "",
+          "icon": "",
+          "color": "",
+          "json": {
+            "elapsedHours": {
+              "$numberInt": "24"
+            }
+          },
+          "disabled": false,
+          "debug": false
+        },
+        {
+          "stepType": {
+            "id": "amb.CleanETLJobs"
+          },
+          "name": "Clean ETL Jobs",
+          "description": "",
+          "icon": "",
+          "color": "",
+          "json": {
+            "elapsedDays": {
+              "$numberInt": "30"
+            }
+          },
+          "disabled": false,
+          "debug": false
+        },
+        {
+          "stepType": {
+            "id": "amb.CleanEventLog"
+          },
+          "name": "Clean Event Log",
+          "description": "",
+          "icon": "",
+          "color": "",
+          "json": {
+            "elapsedDays": {
+              "$numberInt": "30"
+            }
+          },
+          "disabled": false,
+          "debug": false
+        },
+        {
+          "stepType": {
+            "id": "amb.CleanMinuteMinder"
+          },
+          "name": "Clean Minute Minder",
+          "description": "",
+          "icon": "",
+          "color": "",
+          "json": {
+            "elapsedDays": {
+              "$numberInt": "30"
+            }
+          },
+          "disabled": false,
+          "debug": false
+        },
+        {
+          "stepType": {
+            "id": "amb.CleanRepository"
+          },
+          "name": "Clean Repository",
+          "description": "",
+          "icon": "",
+          "color": "",
+          "json": {
+            "elapsedDays": {
+              "$numberInt": "30"
+            }
+          },
+          "disabled": false,
+          "debug": false
+        }
+      ],
+      "testInput": []
+    },
+    "compactMongoDBCollections": {
+      "name": "compactMongoDBCollections",
+      "description": "",
+      "group": "",
+      "icon": "link",
+      "color": "",
+      "steps": [],
+      "testInput": []
+    },
+    "getDatabaseStatisticLogs": {
+      "name": "getDatabaseStatisticLogs",
+      "description": "",
+      "group": "",
+      "icon": "link",
+      "color": "",
+      "steps": [
+        {
+          "stepType": {
+            "id": "amb.ReadDatabaseStats"
+          },
+          "name": "Read Database Statistics",
+          "description": "",
+          "icon": "",
+          "color": "",
+          "json": {
+            "database": "-logs"
+          },
+          "disabled": false,
+          "debug": false
+        },
+        {
+          "stepType": {
+            "id": "json.Reader"
+          },
+          "name": "JSON Reader",
+          "description": "",
+          "icon": "",
+          "color": "",
+          "json": {
+            "merge": "none"
+          },
+          "disabled": false,
+          "debug": false
+        },
+        {
+          "stepType": {
+            "id": "structure.Discard"
+          },
+          "name": "Discard Fields",
+          "description": "",
+          "icon": "",
+          "color": "",
+          "json": {
+            "fields": [
+              "scaleFactor",
+              "ok",
+              "indexBuilds",
+              "IndexDetails",
+              "wiredTiger",
+              "indexDetails",
+              "capped",
+              "nindexes",
+              "indexSizes"
+            ]
+          },
+          "disabled": false,
+          "debug": false
+        },
+        {
+          "stepType": {
+            "id": "number.float.Divide"
+          },
+          "name": "Float Divide",
+          "description": "",
+          "icon": "",
+          "color": "",
+          "json": {
+            "field": "size",
+            "output": "sizeMB",
+            "value": "1000000"
+          },
+          "disabled": false,
+          "debug": false
+        },
+        {
+          "stepType": {
+            "id": "number.float.Divide"
+          },
+          "name": "Float Divide",
+          "description": "",
+          "icon": "",
+          "color": "",
+          "json": {
+            "field": "storageSize",
+            "output": "storageSizeMB",
+            "value": "1000000"
+          },
+          "disabled": false,
+          "debug": false
+        }
+      ],
+      "testInput": []
+    },
+    "compactDocumentDBCollections": {
+      "name": "compactDocumentDBCollections",
+      "description": "",
+      "group": "",
+      "icon": "link",
+      "color": "",
+      "steps": [
+        {
+          "stepType": {
+            "id": "mongodb.RenameCltn"
+          },
+          "name": "MongoDB Rename Collection",
+          "description": "",
+          "icon": "",
+          "color": "",
+          "json": {
+            "pool": "",
+            "from": "",
+            "to": "",
+            "dropTarget": false
+          },
+          "disabled": false,
+          "debug": false
+        }
+      ],
+      "testInput": []
+    }
+  },
+  "imports": [],
+  "lastModified": {
+    "$date": {
+      "$numberLong": "1681723935165"
+    }
+  }
+}

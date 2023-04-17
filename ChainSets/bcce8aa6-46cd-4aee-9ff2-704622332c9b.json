@@ -1,0 +1,1994 @@
+{
+  "_id": "bcce8aa6-46cd-4aee-9ff2-704622332c9b",
+  "name": "houseKeepingLogsArchiveS3",
+  "description": "",
+  "owner": "643cb981d5149a175a746a1b",
+  "access": {
+    "roles": []
+  },
+  "enabled": true,
+  "chains": {
+    "S3LogGetAudit Copy": {
+      "name": "S3LogGetAudit Copy",
+      "description": "",
+      "group": "",
+      "icon": "link",
+      "color": "",
+      "steps": [
+        {
+          "stepType": {
+            "id": "structure.ChainCall"
+          },
+          "name": "Chain Call",
+          "description": "",
+          "icon": "",
+          "color": "",
+          "json": {
+            "chainName": "S3Config"
+          },
+          "disabled": false,
+          "debug": false
+        },
+        {
+          "stepType": {
+            "id": "date.Today"
+          },
+          "name": "Date Year",
+          "description": "",
+          "icon": "",
+          "color": "",
+          "json": {
+            "column": "year",
+            "format": "yyyy"
+          },
+          "disabled": false,
+          "debug": false
+        },
+        {
+          "stepType": {
+            "id": "date.Today"
+          },
+          "name": "Date Month",
+          "description": "",
+          "icon": "",
+          "color": "",
+          "json": {
+            "column": "month",
+            "format": "MM"
+          },
+          "disabled": false,
+          "debug": false
+        },
+        {
+          "stepType": {
+            "id": "date.Today"
+          },
+          "name": "Date Day",
+          "description": "",
+          "icon": "",
+          "color": "",
+          "json": {
+            "column": "day",
+            "format": "dd"
+          },
+          "disabled": true,
+          "debug": false
+        },
+        {
+          "stepType": {
+            "id": "date.Today"
+          },
+          "name": "Date Today",
+          "description": "",
+          "icon": "",
+          "color": "",
+          "json": {
+            "column": "end",
+            "format": "yyyy-MM-dd"
+          },
+          "disabled": false,
+          "debug": false
+        },
+        {
+          "stepType": {
+            "id": "date.Add-Subtract"
+          },
+          "name": "Date Add/Subtract",
+          "description": "",
+          "icon": "",
+          "color": "",
+          "json": {
+            "sourceField": "end",
+            "op": "Subtract",
+            "year": {
+              "$numberInt": "0"
+            },
+            "month": {
+              "$numberInt": "0"
+            },
+            "day": {
+              "$numberInt": "1"
+            },
+            "destField": "yesterday"
+          },
+          "disabled": false,
+          "debug": false
+        },
+        {
+          "stepType": {
+            "id": "date.Format"
+          },
+          "name": "Date Format",
+          "description": "",
+          "icon": "",
+          "color": "",
+          "json": {
+            "sourceField": "yesterday",
+            "format": "dd",
+            "destField": "yd"
+          },
+          "disabled": false,
+          "debug": false
+        },
+        {
+          "stepType": {
+            "id": "json.Record"
+          },
+          "name": "JSON Record",
+          "description": "",
+          "icon": "",
+          "color": "",
+          "json": {
+            "merge": "override",
+            "json": {
+              "path": "ambience-logs/${year}/${month}/${yd}/audit.log.zip"
+            }
+          },
+          "disabled": false,
+          "debug": false
+        },
+        {
+          "stepType": {
+            "id": "string.Substitute"
+          },
+          "name": "String Substitute",
+          "description": "",
+          "icon": "",
+          "color": "",
+          "json": {
+            "field": "path"
+          },
+          "disabled": false,
+          "debug": false
+        },
+        {
+          "stepType": {
+            "id": "s3.GetField"
+          },
+          "name": "S3 Get Object Field",
+          "description": "",
+          "icon": "",
+          "color": "",
+          "json": {
+            "region": "region",
+            "access": "accessId",
+            "secret": "secret",
+            "bucket": "bucket",
+            "path": "path",
+            "roleArn": "roleArn",
+            "roleSessionName": "roleSessionName",
+            "stsServiceEndpoint": "stsServiceEndpoint",
+            "mimeType": "application/octet-stream",
+            "expiry": "-1"
+          },
+          "disabled": false,
+          "debug": false
+        },
+        {
+          "stepType": {
+            "id": "structure.Discard"
+          },
+          "name": "Discard Fields",
+          "description": "",
+          "icon": "",
+          "color": "",
+          "json": {
+            "fields": [
+              "roleArn",
+              "roleSessionName",
+              "secret",
+              "bucket",
+              "accessId",
+              "region",
+              "stsServiceEndpoint",
+              "year",
+              "month",
+              "day"
+            ]
+          },
+          "disabled": true,
+          "debug": false
+        },
+        {
+          "stepType": {
+            "id": "result.HttpEndpoint"
+          },
+          "name": "HTTP Endpoint",
+          "description": "",
+          "icon": "",
+          "color": "",
+          "json": {},
+          "disabled": false,
+          "debug": false
+        }
+      ],
+      "testInput": []
+    },
+    "Log-Activity": {
+      "name": "Log-Activity",
+      "description": "",
+      "group": "",
+      "icon": "link",
+      "color": "",
+      "steps": [
+        {
+          "stepType": {
+            "id": "date.Today"
+          },
+          "name": "Date Today End",
+          "description": "",
+          "icon": "",
+          "color": "",
+          "json": {
+            "column": "end",
+            "format": "yyyy-MM-dd"
+          },
+          "disabled": false,
+          "debug": false
+        },
+        {
+          "stepType": {
+            "id": "date.Add-Subtract"
+          },
+          "name": "Date Add/Subtract",
+          "description": "",
+          "icon": "",
+          "color": "",
+          "json": {
+            "sourceField": "end",
+            "op": "Subtract",
+            "year": {
+              "$numberInt": "0"
+            },
+            "month": {
+              "$numberInt": "0"
+            },
+            "day": {
+              "$numberInt": "1"
+            },
+            "destField": "start"
+          },
+          "disabled": false,
+          "debug": false
+        },
+        {
+          "stepType": {
+            "id": "amb.ReadActivityLog"
+          },
+          "name": "Read Activity Log",
+          "description": "",
+          "icon": "",
+          "color": "",
+          "json": {
+            "startField": "start",
+            "endField": "end"
+          },
+          "disabled": false,
+          "debug": false
+        },
+        {
+          "stepType": {
+            "id": "structure.FlattenSubDocument"
+          },
+          "name": "Flatten Sub-Document",
+          "description": "",
+          "icon": "",
+          "color": "",
+          "json": {
+            "field": "when"
+          },
+          "disabled": false,
+          "debug": false
+        },
+        {
+          "stepType": {
+            "id": "structure.Discard"
+          },
+          "name": "Discard Fields",
+          "description": "",
+          "icon": "",
+          "color": "",
+          "json": {
+            "fields": [
+              "dayOfYear",
+              "dayOfWeek",
+              "time",
+              "month",
+              "day",
+              "hour",
+              "minute",
+              "second"
+            ]
+          },
+          "disabled": false,
+          "debug": false
+        },
+        {
+          "stepType": {
+            "id": "json.JsonArrayWriter"
+          },
+          "name": "JSON Array Writer",
+          "description": "",
+          "icon": "",
+          "color": "",
+          "json": {},
+          "disabled": false,
+          "debug": false
+        },
+        {
+          "stepType": {
+            "id": "file.FileWriter"
+          },
+          "name": "File Writer",
+          "description": "",
+          "icon": "",
+          "color": "",
+          "json": {
+            "filepath": "./data/out/activity.json"
+          },
+          "disabled": false,
+          "debug": false
+        },
+        {
+          "stepType": {
+            "id": "json.Record"
+          },
+          "name": "JSON Record",
+          "description": "",
+          "icon": "",
+          "color": "",
+          "json": {
+            "merge": "none",
+            "json": {
+              "from": "./data/out/activity.json",
+              "to": "./data/out/activity.json.zip"
+            }
+          },
+          "disabled": false,
+          "debug": false
+        },
+        {
+          "stepType": {
+            "id": "file.FileZipper"
+          },
+          "name": "Zip File/Directory",
+          "description": "",
+          "icon": "",
+          "color": "",
+          "json": {
+            "fromField": "from",
+            "toField": "to",
+            "overwrite": true
+          },
+          "disabled": false,
+          "debug": false
+        },
+        {
+          "stepType": {
+            "id": "file.FileFieldReader"
+          },
+          "name": "File Field Reader",
+          "description": "",
+          "icon": "",
+          "color": "",
+          "json": {
+            "field": "to"
+          },
+          "disabled": false,
+          "debug": false
+        },
+        {
+          "stepType": {
+            "id": "structure.ChainCall"
+          },
+          "name": "Chain Call",
+          "description": "",
+          "icon": "",
+          "color": "",
+          "json": {
+            "chainName": "S3Config"
+          },
+          "disabled": false,
+          "debug": false
+        },
+        {
+          "stepType": {
+            "id": "date.Today"
+          },
+          "name": "Date Today Today",
+          "description": "",
+          "icon": "",
+          "color": "",
+          "json": {
+            "column": "today",
+            "format": "yyyy-MM-dd"
+          },
+          "disabled": false,
+          "debug": false
+        },
+        {
+          "stepType": {
+            "id": "date.Add-Subtract"
+          },
+          "name": "Date Add/Subtract",
+          "description": "",
+          "icon": "",
+          "color": "",
+          "json": {
+            "sourceField": "today",
+            "op": "Subtract",
+            "year": {
+              "$numberInt": "0"
+            },
+            "month": {
+              "$numberInt": "0"
+            },
+            "day": {
+              "$numberInt": "1"
+            },
+            "destField": "start"
+          },
+          "disabled": false,
+          "debug": false
+        },
+        {
+          "stepType": {
+            "id": "date.Format"
+          },
+          "name": "Start File Date Format",
+          "description": "",
+          "icon": "",
+          "color": "",
+          "json": {
+            "sourceField": "start",
+            "format": "yyyy/MM/dd",
+            "destField": "date"
+          },
+          "disabled": false,
+          "debug": false
+        },
+        {
+          "stepType": {
+            "id": "json.Record"
+          },
+          "name": "JSON Record",
+          "description": "",
+          "icon": "",
+          "color": "",
+          "json": {
+            "merge": "override",
+            "json": {
+              "pathupload": "ambience-logs/${date}/activity.log.zip"
+            }
+          },
+          "disabled": false,
+          "debug": false
+        },
+        {
+          "stepType": {
+            "id": "string.Substitute"
+          },
+          "name": "String Substitute",
+          "description": "",
+          "icon": "",
+          "color": "",
+          "json": {
+            "field": "pathupload"
+          },
+          "disabled": false,
+          "debug": false
+        },
+        {
+          "stepType": {
+            "id": "s3.PutField"
+          },
+          "name": "S3 Put Object Field",
+          "description": "",
+          "icon": "",
+          "color": "#7fff00",
+          "json": {
+            "region": "region",
+            "access": "accessId",
+            "secret": "secret",
+            "bucket": "bucket",
+            "path": "pathupload",
+            "roleArn": "roleArn",
+            "roleSessionName": "roleSessionName",
+            "stsServiceEndpoint": "stsServiceEndpoint",
+            "mimeType": "application/octet-stream",
+            "expiry": "-1"
+          },
+          "disabled": false,
+          "debug": false
+        },
+        {
+          "stepType": {
+            "id": "json.Record"
+          },
+          "name": "JSON Record - Output files",
+          "description": "",
+          "icon": "",
+          "color": "",
+          "json": {
+            "merge": "override",
+            "json": {
+              "from": "./data/out/activity.json",
+              "to": "./data/out/activity.json.zip"
+            }
+          },
+          "disabled": false,
+          "debug": false
+        },
+        {
+          "stepType": {
+            "id": "file.FileFieldDeleter"
+          },
+          "name": "File Field Deleter",
+          "description": "",
+          "icon": "",
+          "color": "",
+          "json": {
+            "field": "from"
+          },
+          "disabled": false,
+          "debug": false
+        },
+        {
+          "stepType": {
+            "id": "file.FileFieldDeleter"
+          },
+          "name": "File Field Deleter",
+          "description": "",
+          "icon": "",
+          "color": "",
+          "json": {
+            "field": "to"
+          },
+          "disabled": false,
+          "debug": false
+        }
+      ],
+      "testInput": []
+    },
+    "Log-Audit": {
+      "name": "Log-Audit",
+      "description": "",
+      "group": "",
+      "icon": "link",
+      "color": "",
+      "steps": [
+        {
+          "stepType": {
+            "id": "date.Today"
+          },
+          "name": "Date Today",
+          "description": "",
+          "icon": "",
+          "color": "",
+          "json": {
+            "column": "end",
+            "format": "yyyy-MM-dd"
+          },
+          "disabled": false,
+          "debug": false
+        },
+        {
+          "stepType": {
+            "id": "date.Add-Subtract"
+          },
+          "name": "Date Add/Subtract",
+          "description": "",
+          "icon": "",
+          "color": "",
+          "json": {
+            "sourceField": "end",
+            "op": "Subtract",
+            "year": {
+              "$numberInt": "0"
+            },
+            "month": {
+              "$numberInt": "0"
+            },
+            "day": {
+              "$numberInt": "1"
+            },
+            "destField": "start"
+          },
+          "disabled": false,
+          "debug": false
+        },
+        {
+          "stepType": {
+            "id": "amb.ReadAuditLog"
+          },
+          "name": "Read Audit Log",
+          "description": "",
+          "icon": "",
+          "color": "",
+          "json": {
+            "startField": "start",
+            "endField": "end"
+          },
+          "disabled": false,
+          "debug": false
+        },
+        {
+          "stepType": {
+            "id": "structure.FlattenSubDocument"
+          },
+          "name": "Flatten Sub-Document",
+          "description": "",
+          "icon": "",
+          "color": "",
+          "json": {
+            "field": "when"
+          },
+          "disabled": false,
+          "debug": false
+        },
+        {
+          "stepType": {
+            "id": "structure.Discard"
+          },
+          "name": "Discard Fields",
+          "description": "",
+          "icon": "",
+          "color": "",
+          "json": {
+            "fields": [
+              "dayOfYear",
+              "dayOfWeek",
+              "time",
+              "month",
+              "day",
+              "hour",
+              "minute",
+              "second"
+            ]
+          },
+          "disabled": false,
+          "debug": false
+        },
+        {
+          "stepType": {
+            "id": "json.JsonArrayWriter"
+          },
+          "name": "JSON Array Writer",
+          "description": "",
+          "icon": "",
+          "color": "",
+          "json": {},
+          "disabled": false,
+          "debug": false
+        },
+        {
+          "stepType": {
+            "id": "file.FileWriter"
+          },
+          "name": "File Writer",
+          "description": "",
+          "icon": "",
+          "color": "",
+          "json": {
+            "filepath": "./data/out/audit.json"
+          },
+          "disabled": false,
+          "debug": false
+        },
+        {
+          "stepType": {
+            "id": "json.Record"
+          },
+          "name": "JSON Record",
+          "description": "",
+          "icon": "",
+          "color": "",
+          "json": {
+            "merge": "override",
+            "json": {
+              "from": "./data/out/audit.json",
+              "to": "./data/out/audit.json.zip"
+            }
+          },
+          "disabled": false,
+          "debug": false
+        },
+        {
+          "stepType": {
+            "id": "file.FileZipper"
+          },
+          "name": "Zip File/Directory",
+          "description": "",
+          "icon": "",
+          "color": "",
+          "json": {
+            "fromField": "from",
+            "toField": "to",
+            "overwrite": true
+          },
+          "disabled": false,
+          "debug": false
+        },
+        {
+          "stepType": {
+            "id": "file.FileFieldReader"
+          },
+          "name": "File Field Reader",
+          "description": "",
+          "icon": "",
+          "color": "",
+          "json": {
+            "field": "to"
+          },
+          "disabled": false,
+          "debug": false
+        },
+        {
+          "stepType": {
+            "id": "structure.ChainCall"
+          },
+          "name": "Chain Call",
+          "description": "",
+          "icon": "",
+          "color": "",
+          "json": {
+            "chainName": "S3Config"
+          },
+          "disabled": false,
+          "debug": false
+        },
+        {
+          "stepType": {
+            "id": "date.Today"
+          },
+          "name": "Date Today",
+          "description": "",
+          "icon": "",
+          "color": "",
+          "json": {
+            "column": "today",
+            "format": "yyyy-MM-dd"
+          },
+          "disabled": false,
+          "debug": false
+        },
+        {
+          "stepType": {
+            "id": "date.Add-Subtract"
+          },
+          "name": "Date Add/Subtract",
+          "description": "",
+          "icon": "",
+          "color": "",
+          "json": {
+            "sourceField": "today",
+            "op": "Subtract",
+            "year": {
+              "$numberInt": "0"
+            },
+            "month": {
+              "$numberInt": "0"
+            },
+            "day": {
+              "$numberInt": "1"
+            },
+            "destField": "start"
+          },
+          "disabled": false,
+          "debug": false
+        },
+        {
+          "stepType": {
+            "id": "date.Format"
+          },
+          "name": "Start File Date Format",
+          "description": "",
+          "icon": "",
+          "color": "",
+          "json": {
+            "sourceField": "start",
+            "format": "yyyy/MM/dd",
+            "destField": "date"
+          },
+          "disabled": false,
+          "debug": false
+        },
+        {
+          "stepType": {
+            "id": "json.Record"
+          },
+          "name": "JSON Record",
+          "description": "",
+          "icon": "",
+          "color": "",
+          "json": {
+            "merge": "override",
+            "json": {
+              "pathupload": "ambience-logs/${date}/audit.log.zip"
+            }
+          },
+          "disabled": false,
+          "debug": false
+        },
+        {
+          "stepType": {
+            "id": "string.Substitute"
+          },
+          "name": "String Substitute",
+          "description": "",
+          "icon": "",
+          "color": "",
+          "json": {
+            "field": "pathupload"
+          },
+          "disabled": false,
+          "debug": false
+        },
+        {
+          "stepType": {
+            "id": "s3.PutField"
+          },
+          "name": "S3 Put Object Field",
+          "description": "",
+          "icon": "",
+          "color": "#7fff00",
+          "json": {
+            "region": "region",
+            "access": "accessId",
+            "secret": "secret",
+            "bucket": "bucket",
+            "path": "pathupload",
+            "roleArn": "roleArn",
+            "roleSessionName": "roleSessionName",
+            "stsServiceEndpoint": "stsServiceEndpoint",
+            "mimeType": "application/octet-stream",
+            "expiry": "-1"
+          },
+          "disabled": false,
+          "debug": false
+        },
+        {
+          "stepType": {
+            "id": "json.Record"
+          },
+          "name": "JSON Record",
+          "description": "",
+          "icon": "",
+          "color": "",
+          "json": {
+            "merge": "override",
+            "json": {
+              "from": "./data/out/audit.json",
+              "to": "./data/out/audit.json.zip"
+            }
+          },
+          "disabled": false,
+          "debug": false
+        },
+        {
+          "stepType": {
+            "id": "file.FileFieldDeleter"
+          },
+          "name": "File Field Deleter",
+          "description": "",
+          "icon": "",
+          "color": "",
+          "json": {
+            "field": "from"
+          },
+          "disabled": false,
+          "debug": false
+        },
+        {
+          "stepType": {
+            "id": "file.FileFieldDeleter"
+          },
+          "name": "File Field Deleter",
+          "description": "",
+          "icon": "",
+          "color": "",
+          "json": {
+            "field": "to"
+          },
+          "disabled": false,
+          "debug": false
+        }
+      ],
+      "testInput": []
+    },
+    "Log-Event": {
+      "name": "Log-Event",
+      "description": "",
+      "group": "",
+      "icon": "link",
+      "color": "",
+      "steps": [
+        {
+          "stepType": {
+            "id": "date.Today"
+          },
+          "name": "Date Today",
+          "description": "",
+          "icon": "",
+          "color": "",
+          "json": {
+            "column": "end",
+            "format": "yyyy-MM-dd"
+          },
+          "disabled": false,
+          "debug": false
+        },
+        {
+          "stepType": {
+            "id": "date.Add-Subtract"
+          },
+          "name": "Date Add/Subtract",
+          "description": "",
+          "icon": "",
+          "color": "",
+          "json": {
+            "sourceField": "end",
+            "op": "Subtract",
+            "year": {
+              "$numberInt": "0"
+            },
+            "month": {
+              "$numberInt": "0"
+            },
+            "day": {
+              "$numberInt": "1"
+            },
+            "destField": "start"
+          },
+          "disabled": false,
+          "debug": false
+        },
+        {
+          "stepType": {
+            "id": "amb.ReadEventLog"
+          },
+          "name": "Read Event Log",
+          "description": "",
+          "icon": "",
+          "color": "",
+          "json": {
+            "startField": "start",
+            "endField": "end",
+            "level": {
+              "$numberInt": "20000"
+            }
+          },
+          "disabled": false,
+          "debug": false
+        },
+        {
+          "stepType": {
+            "id": "structure.FlattenSubDocument"
+          },
+          "name": "Flatten Sub-Document",
+          "description": "",
+          "icon": "",
+          "color": "",
+          "json": {
+            "field": "when"
+          },
+          "disabled": false,
+          "debug": false
+        },
+        {
+          "stepType": {
+            "id": "structure.Discard"
+          },
+          "name": "Discard Fields",
+          "description": "",
+          "icon": "",
+          "color": "",
+          "json": {
+            "fields": [
+              "dayOfYear",
+              "dayOfWeek",
+              "time",
+              "month",
+              "day",
+              "hour",
+              "minute",
+              "second"
+            ]
+          },
+          "disabled": false,
+          "debug": false
+        },
+        {
+          "stepType": {
+            "id": "json.JsonArrayWriter"
+          },
+          "name": "JSON Array Writer",
+          "description": "",
+          "icon": "",
+          "color": "",
+          "json": {},
+          "disabled": false,
+          "debug": false
+        },
+        {
+          "stepType": {
+            "id": "file.FileWriter"
+          },
+          "name": "File Writer",
+          "description": "",
+          "icon": "",
+          "color": "",
+          "json": {
+            "filepath": "./data/out/event.json"
+          },
+          "disabled": false,
+          "debug": false
+        },
+        {
+          "stepType": {
+            "id": "json.Record"
+          },
+          "name": "JSON Record",
+          "description": "",
+          "icon": "",
+          "color": "",
+          "json": {
+            "merge": "none",
+            "json": {
+              "from": "./data/out/event.json",
+              "to": "./data/out/event.json.zip"
+            }
+          },
+          "disabled": false,
+          "debug": false
+        },
+        {
+          "stepType": {
+            "id": "file.FileZipper"
+          },
+          "name": "Zip File/Directory",
+          "description": "",
+          "icon": "",
+          "color": "",
+          "json": {
+            "fromField": "from",
+            "toField": "to",
+            "overwrite": true
+          },
+          "disabled": false,
+          "debug": false
+        },
+        {
+          "stepType": {
+            "id": "file.FileFieldReader"
+          },
+          "name": "File Field Reader",
+          "description": "",
+          "icon": "",
+          "color": "",
+          "json": {
+            "field": "to"
+          },
+          "disabled": false,
+          "debug": false
+        },
+        {
+          "stepType": {
+            "id": "structure.ChainCall"
+          },
+          "name": "Chain Call",
+          "description": "",
+          "icon": "",
+          "color": "",
+          "json": {
+            "chainName": "S3Config"
+          },
+          "disabled": false,
+          "debug": false
+        },
+        {
+          "stepType": {
+            "id": "date.Today"
+          },
+          "name": "Date Today",
+          "description": "",
+          "icon": "",
+          "color": "",
+          "json": {
+            "column": "today",
+            "format": "yyyy-MM-dd"
+          },
+          "disabled": false,
+          "debug": false
+        },
+        {
+          "stepType": {
+            "id": "date.Add-Subtract"
+          },
+          "name": "Date Add/Subtract",
+          "description": "",
+          "icon": "",
+          "color": "",
+          "json": {
+            "sourceField": "today",
+            "op": "Subtract",
+            "year": {
+              "$numberInt": "0"
+            },
+            "month": {
+              "$numberInt": "0"
+            },
+            "day": {
+              "$numberInt": "1"
+            },
+            "destField": "start"
+          },
+          "disabled": false,
+          "debug": false
+        },
+        {
+          "stepType": {
+            "id": "date.Format"
+          },
+          "name": "Start File Date Format",
+          "description": "",
+          "icon": "",
+          "color": "",
+          "json": {
+            "sourceField": "start",
+            "format": "yyyy/MM/dd",
+            "destField": "date"
+          },
+          "disabled": false,
+          "debug": false
+        },
+        {
+          "stepType": {
+            "id": "json.Record"
+          },
+          "name": "JSON Record",
+          "description": "",
+          "icon": "",
+          "color": "",
+          "json": {
+            "merge": "override",
+            "json": {
+              "pathupload": "ambience-logs/${date}/event.log.zip"
+            }
+          },
+          "disabled": false,
+          "debug": false
+        },
+        {
+          "stepType": {
+            "id": "string.Substitute"
+          },
+          "name": "String Substitute",
+          "description": "",
+          "icon": "",
+          "color": "",
+          "json": {
+            "field": "pathupload"
+          },
+          "disabled": false,
+          "debug": false
+        },
+        {
+          "stepType": {
+            "id": "s3.PutField"
+          },
+          "name": "S3 Put Object Field",
+          "description": "",
+          "icon": "",
+          "color": "#7fff00",
+          "json": {
+            "region": "region",
+            "access": "accessId",
+            "secret": "secret",
+            "bucket": "bucket",
+            "path": "pathupload",
+            "roleArn": "roleArn",
+            "roleSessionName": "roleSessionName",
+            "stsServiceEndpoint": "stsServiceEndpoint",
+            "mimeType": "application/octet-stream",
+            "expiry": "-1"
+          },
+          "disabled": false,
+          "debug": false
+        },
+        {
+          "stepType": {
+            "id": "json.Record"
+          },
+          "name": "JSON Record - File Output",
+          "description": "",
+          "icon": "",
+          "color": "",
+          "json": {
+            "merge": "override",
+            "json": {
+              "from": "./data/out/event.json",
+              "to": "./data/out/event.json.zip"
+            }
+          },
+          "disabled": false,
+          "debug": false
+        },
+        {
+          "stepType": {
+            "id": "file.FileFieldDeleter"
+          },
+          "name": "File Field Deleter",
+          "description": "",
+          "icon": "",
+          "color": "",
+          "json": {
+            "field": "from"
+          },
+          "disabled": false,
+          "debug": false
+        },
+        {
+          "stepType": {
+            "id": "file.FileFieldDeleter"
+          },
+          "name": "File Field Deleter",
+          "description": "",
+          "icon": "",
+          "color": "",
+          "json": {
+            "field": "to"
+          },
+          "disabled": false,
+          "debug": false
+        }
+      ],
+      "testInput": []
+    },
+    "S3Config": {
+      "name": "S3Config",
+      "description": "Read S3 config from application or MongoDB config",
+      "group": "",
+      "icon": "link",
+      "color": "",
+      "steps": [
+        {
+          "stepType": {
+            "id": "config.ReadString"
+          },
+          "name": "Read aws.region Config String",
+          "description": "",
+          "icon": "",
+          "color": "",
+          "json": {
+            "key": "aws.s3.region",
+            "field": "region"
+          },
+          "disabled": false,
+          "debug": false
+        },
+        {
+          "stepType": {
+            "id": "config.ReadString"
+          },
+          "name": "Read aws.bucket Config String",
+          "description": "",
+          "icon": "",
+          "color": "",
+          "json": {
+            "key": "aws.s3.bucket",
+            "field": "bucket"
+          },
+          "disabled": false,
+          "debug": false
+        },
+        {
+          "stepType": {
+            "id": "config.ReadString"
+          },
+          "name": "Read aws.access Config String",
+          "description": "",
+          "icon": "",
+          "color": "",
+          "json": {
+            "key": "aws.s3.accessId",
+            "field": "accessId"
+          },
+          "disabled": false,
+          "debug": false
+        },
+        {
+          "stepType": {
+            "id": "config.ReadString"
+          },
+          "name": "Read aws.secret Config String",
+          "description": "",
+          "icon": "",
+          "color": "",
+          "json": {
+            "key": "aws.s3.secret",
+            "field": "secret"
+          },
+          "disabled": false,
+          "debug": false
+        },
+        {
+          "stepType": {
+            "id": "config.ReadString"
+          },
+          "name": "Read aws roleArn Config String",
+          "description": "",
+          "icon": "",
+          "color": "",
+          "json": {
+            "key": "aws.s3.roleArn",
+            "field": "roleArn"
+          },
+          "disabled": false,
+          "debug": false
+        },
+        {
+          "stepType": {
+            "id": "config.ReadString"
+          },
+          "name": "Read aws roleSessionName  Config String",
+          "description": "",
+          "icon": "",
+          "color": "",
+          "json": {
+            "key": "aws.s3.roleSessionName",
+            "field": "roleSessionName"
+          },
+          "disabled": false,
+          "debug": false
+        },
+        {
+          "stepType": {
+            "id": "config.ReadString"
+          },
+          "name": "Read was stsServiceEndpoint String",
+          "description": "",
+          "icon": "",
+          "color": "",
+          "json": {
+            "key": "aws.s3.stsServiceEndpoint",
+            "field": "stsServiceEndpoint"
+          },
+          "disabled": false,
+          "debug": false
+        }
+      ],
+      "testInput": []
+    },
+    "S3LogGetActivity": {
+      "name": "S3LogGetActivity",
+      "description": "",
+      "group": "",
+      "icon": "link",
+      "color": "",
+      "steps": [
+        {
+          "stepType": {
+            "id": "structure.ChainCall"
+          },
+          "name": "Chain Call",
+          "description": "",
+          "icon": "",
+          "color": "",
+          "json": {
+            "chainName": "S3Config"
+          },
+          "disabled": false,
+          "debug": false
+        },
+        {
+          "stepType": {
+            "id": "date.Today"
+          },
+          "name": "Date Year",
+          "description": "",
+          "icon": "",
+          "color": "",
+          "json": {
+            "column": "year",
+            "format": "yyyy"
+          },
+          "disabled": false,
+          "debug": false
+        },
+        {
+          "stepType": {
+            "id": "date.Today"
+          },
+          "name": "Date Month",
+          "description": "",
+          "icon": "",
+          "color": "",
+          "json": {
+            "column": "month",
+            "format": "MM"
+          },
+          "disabled": false,
+          "debug": false
+        },
+        {
+          "stepType": {
+            "id": "date.Today"
+          },
+          "name": "Date Day",
+          "description": "",
+          "icon": "",
+          "color": "",
+          "json": {
+            "column": "day",
+            "format": "dd"
+          },
+          "disabled": true,
+          "debug": false
+        },
+        {
+          "stepType": {
+            "id": "date.Today"
+          },
+          "name": "Date Today",
+          "description": "",
+          "icon": "",
+          "color": "",
+          "json": {
+            "column": "end",
+            "format": "yyyy-MM-dd"
+          },
+          "disabled": false,
+          "debug": false
+        },
+        {
+          "stepType": {
+            "id": "date.Add-Subtract"
+          },
+          "name": "Date Add/Subtract",
+          "description": "",
+          "icon": "",
+          "color": "",
+          "json": {
+            "sourceField": "end",
+            "op": "Subtract",
+            "year": {
+              "$numberInt": "0"
+            },
+            "month": {
+              "$numberInt": "0"
+            },
+            "day": {
+              "$numberInt": "1"
+            },
+            "destField": "yesterday"
+          },
+          "disabled": false,
+          "debug": false
+        },
+        {
+          "stepType": {
+            "id": "date.Format"
+          },
+          "name": "Date Format",
+          "description": "",
+          "icon": "",
+          "color": "",
+          "json": {
+            "sourceField": "yesterday",
+            "format": "dd",
+            "destField": "yd"
+          },
+          "disabled": false,
+          "debug": false
+        },
+        {
+          "stepType": {
+            "id": "json.Record"
+          },
+          "name": "JSON Record",
+          "description": "",
+          "icon": "",
+          "color": "",
+          "json": {
+            "merge": "override",
+            "json": {
+              "path": "ambience-logs/${year}/${month}/${yd}/activity.log.zip",
+              "filein": "/User/developer-capris-admin/activity-${year}${month}${yd}.log.zip"
+            }
+          },
+          "disabled": false,
+          "debug": false
+        },
+        {
+          "stepType": {
+            "id": "string.Substitute"
+          },
+          "name": "String Substitute",
+          "description": "",
+          "icon": "",
+          "color": "",
+          "json": {
+            "field": "path"
+          },
+          "disabled": false,
+          "debug": false
+        },
+        {
+          "stepType": {
+            "id": "string.Substitute"
+          },
+          "name": "String Substitute",
+          "description": "",
+          "icon": "",
+          "color": "",
+          "json": {
+            "field": "filein"
+          },
+          "disabled": false,
+          "debug": false
+        },
+        {
+          "stepType": {
+            "id": "s3.GetField"
+          },
+          "name": "S3 Get Object Field",
+          "description": "",
+          "icon": "",
+          "color": "",
+          "json": {
+            "region": "region",
+            "access": "accessId",
+            "secret": "secret",
+            "bucket": "bucket",
+            "path": "path",
+            "roleArn": "roleArn",
+            "roleSessionName": "roleSessionName",
+            "stsServiceEndpoint": "stsServiceEndpoint",
+            "mimeType": "application/octet-stream",
+            "expiry": "-1"
+          },
+          "disabled": false,
+          "debug": false
+        },
+        {
+          "stepType": {
+            "id": "structure.Discard"
+          },
+          "name": "Discard Fields",
+          "description": "",
+          "icon": "",
+          "color": "",
+          "json": {
+            "fields": [
+              "roleArn",
+              "roleSessionName",
+              "secret",
+              "bucket",
+              "accessId",
+              "region",
+              "stsServiceEndpoint",
+              "year",
+              "month",
+              "day"
+            ]
+          },
+          "disabled": true,
+          "debug": false
+        },
+        {
+          "stepType": {
+            "id": "result.HttpEndpoint"
+          },
+          "name": "HTTP Endpoint",
+          "description": "",
+          "icon": "",
+          "color": "",
+          "json": {},
+          "disabled": true,
+          "debug": false
+        },
+        {
+          "stepType": {
+            "id": "repository.FileFieldWriter"
+          },
+          "name": "File Field Writer",
+          "description": "",
+          "icon": "",
+          "color": "",
+          "json": {
+            "field": "filein"
+          },
+          "disabled": false,
+          "debug": false
+        }
+      ],
+      "testInput": []
+    },
+    "S3LogGetEvent": {
+      "name": "S3LogGetEvent",
+      "description": "",
+      "group": "",
+      "icon": "link",
+      "color": "",
+      "steps": [
+        {
+          "stepType": {
+            "id": "structure.ChainCall"
+          },
+          "name": "Chain Call",
+          "description": "",
+          "icon": "",
+          "color": "",
+          "json": {
+            "chainName": "S3Config"
+          },
+          "disabled": false,
+          "debug": false
+        },
+        {
+          "stepType": {
+            "id": "date.Today"
+          },
+          "name": "Date Year",
+          "description": "",
+          "icon": "",
+          "color": "",
+          "json": {
+            "column": "year",
+            "format": "yyyy"
+          },
+          "disabled": false,
+          "debug": false
+        },
+        {
+          "stepType": {
+            "id": "date.Today"
+          },
+          "name": "Date Month",
+          "description": "",
+          "icon": "",
+          "color": "",
+          "json": {
+            "column": "month",
+            "format": "MM"
+          },
+          "disabled": false,
+          "debug": false
+        },
+        {
+          "stepType": {
+            "id": "date.Today"
+          },
+          "name": "Date Day",
+          "description": "",
+          "icon": "",
+          "color": "",
+          "json": {
+            "column": "day",
+            "format": "dd"
+          },
+          "disabled": true,
+          "debug": false
+        },
+        {
+          "stepType": {
+            "id": "date.Today"
+          },
+          "name": "Date Today",
+          "description": "",
+          "icon": "",
+          "color": "",
+          "json": {
+            "column": "end",
+            "format": "yyyy-MM-dd"
+          },
+          "disabled": false,
+          "debug": false
+        },
+        {
+          "stepType": {
+            "id": "date.Add-Subtract"
+          },
+          "name": "Date Add/Subtract",
+          "description": "",
+          "icon": "",
+          "color": "",
+          "json": {
+            "sourceField": "end",
+            "op": "Subtract",
+            "year": {
+              "$numberInt": "0"
+            },
+            "month": {
+              "$numberInt": "0"
+            },
+            "day": {
+              "$numberInt": "1"
+            },
+            "destField": "yesterday"
+          },
+          "disabled": false,
+          "debug": false
+        },
+        {
+          "stepType": {
+            "id": "date.Format"
+          },
+          "name": "Date Format",
+          "description": "",
+          "icon": "",
+          "color": "",
+          "json": {
+            "sourceField": "yesterday",
+            "format": "dd",
+            "destField": "yd"
+          },
+          "disabled": false,
+          "debug": false
+        },
+        {
+          "stepType": {
+            "id": "json.Record"
+          },
+          "name": "JSON Record",
+          "description": "",
+          "icon": "",
+          "color": "",
+          "json": {
+            "merge": "override",
+            "json": {
+              "path": "ambience-logs/${year}/${month}/${yd}/event.log.zip"
+            }
+          },
+          "disabled": false,
+          "debug": false
+        },
+        {
+          "stepType": {
+            "id": "string.Substitute"
+          },
+          "name": "String Substitute",
+          "description": "",
+          "icon": "",
+          "color": "",
+          "json": {
+            "field": "path"
+          },
+          "disabled": false,
+          "debug": false
+        },
+        {
+          "stepType": {
+            "id": "s3.GetField"
+          },
+          "name": "S3 Get Object Field",
+          "description": "",
+          "icon": "",
+          "color": "",
+          "json": {
+            "region": "region",
+            "access": "accessId",
+            "secret": "secret",
+            "bucket": "bucket",
+            "path": "path",
+            "roleArn": "roleArn",
+            "roleSessionName": "roleSessionName",
+            "stsServiceEndpoint": "stsServiceEndpoint",
+            "mimeType": "application/octet-stream",
+            "expiry": "-1"
+          },
+          "disabled": false,
+          "debug": false
+        },
+        {
+          "stepType": {
+            "id": "structure.Discard"
+          },
+          "name": "Discard Fields",
+          "description": "",
+          "icon": "",
+          "color": "",
+          "json": {
+            "fields": [
+              "roleArn",
+              "roleSessionName",
+              "secret",
+              "bucket",
+              "accessId",
+              "region",
+              "stsServiceEndpoint",
+              "year",
+              "month",
+              "day"
+            ]
+          },
+          "disabled": true,
+          "debug": false
+        },
+        {
+          "stepType": {
+            "id": "result.HttpEndpoint"
+          },
+          "name": "HTTP Endpoint",
+          "description": "",
+          "icon": "",
+          "color": "",
+          "json": {},
+          "disabled": false,
+          "debug": false
+        }
+      ],
+      "testInput": []
+    },
+    "S3ListLogs": {
+      "name": "S3ListLogs",
+      "description": "",
+      "group": "",
+      "icon": "link",
+      "color": "",
+      "steps": [
+        {
+          "stepType": {
+            "id": "structure.ChainCall"
+          },
+          "name": "Chain Call",
+          "description": "",
+          "icon": "",
+          "color": "",
+          "json": {
+            "chainName": "S3Config"
+          },
+          "disabled": false,
+          "debug": false
+        },
+        {
+          "stepType": {
+            "id": "date.Today"
+          },
+          "name": "Date Year",
+          "description": "",
+          "icon": "",
+          "color": "",
+          "json": {
+            "column": "year",
+            "format": "yyyy"
+          },
+          "disabled": false,
+          "debug": false
+        },
+        {
+          "stepType": {
+            "id": "date.Today"
+          },
+          "name": "Date Month",
+          "description": "",
+          "icon": "",
+          "color": "",
+          "json": {
+            "column": "month",
+            "format": "MM"
+          },
+          "disabled": false,
+          "debug": false
+        },
+        {
+          "stepType": {
+            "id": "date.Today"
+          },
+          "name": "Date Day",
+          "description": "",
+          "icon": "",
+          "color": "",
+          "json": {
+            "column": "day",
+            "format": "dd"
+          },
+          "disabled": true,
+          "debug": false
+        },
+        {
+          "stepType": {
+            "id": "json.Record"
+          },
+          "name": "JSON Record",
+          "description": "",
+          "icon": "",
+          "color": "",
+          "json": {
+            "merge": "override",
+            "json": {
+              "path": "ambience-logs/${year}/${month}/"
+            }
+          },
+          "disabled": false,
+          "debug": false
+        },
+        {
+          "stepType": {
+            "id": "string.Substitute"
+          },
+          "name": "String Substitute",
+          "description": "",
+          "icon": "",
+          "color": "",
+          "json": {
+            "field": "path"
+          },
+          "disabled": false,
+          "debug": false
+        },
+        {
+          "stepType": {
+            "id": "s3.ListField"
+          },
+          "name": "S3 List Field",
+          "description": "",
+          "icon": "",
+          "color": "",
+          "json": {
+            "region": "region",
+            "access": "accessId",
+            "secret": "secret",
+            "bucket": "bucket",
+            "path": "path",
+            "roleArn": "roleArn",
+            "roleSessionName": "roleSessionName",
+            "stsServiceEndpoint": "stsServiceEndpoint",
+            "mimeType": "application/octet-stream",
+            "expiry": "-1"
+          },
+          "disabled": false,
+          "debug": false
+        },
+        {
+          "stepType": {
+            "id": "structure.Discard"
+          },
+          "name": "Discard Fields",
+          "description": "",
+          "icon": "",
+          "color": "",
+          "json": {
+            "fields": [
+              "roleArn",
+              "roleSessionName",
+              "secret",
+              "bucket",
+              "accessId",
+              "region",
+              "stsServiceEndpoint",
+              "year",
+              "month",
+              "day"
+            ]
+          },
+          "disabled": false,
+          "debug": false
+        }
+      ],
+      "testInput": []
+    }
+  },
+  "imports": []
+}

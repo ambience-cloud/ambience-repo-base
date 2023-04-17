@@ -1,0 +1,17 @@
+{
+  "_id": {
+    "$oid": "643cba03d5149a175a746b13"
+  },
+  "name": "SMTP AWS",
+  "enabled": false,
+  "version": {
+    "$numberInt": "1"
+  },
+  "content": "elixir.mail {\n  smtp = \"aws\"\n  # The debug server is used by default - this logs the mails, but does not send them\n  # Change this to gmail or aws to use the different SMTP server defined below\n  # or add your own server following the pattern of the aws configuration.\n  aws {\n    from = \"[email address]\"\n    host = \"[aws email host]\"\n    dnsResolver = \"\"\n    port = 465\n    user =  \"[aws_smtp_access_key_id]\"\n    password = \"[aws_smpt_secret_access_key]\"\n    connectionTimeout = 30000\n    tls = true\n    ssl = true\n    authMechanism = \"\"\n    debug = false\n  }\n}",
+  "createdBy": "admin",
+  "createdAt": {
+    "$date": {
+      "$numberLong": "1681701379267"
+    }
+  }
+}
