@@ -1,0 +1,13 @@
+{
+  "_id": {
+    "$oid": "643f4a0e722c69746c7e5546"
+  },
+  "name": "Git Deploy ReadOnly Repo",
+  "enabled": true,
+  "version": 1,
+  "content": "ambience {\n  modules {\n    git-deploy {\n\n      repositories {\n        # specify key: value pairs where the value may be a remote git repository:    https://[user]:[pass]@github.com/[git repo].git like:\n        # encypted to prevent user and pass from exposed\n\n        # set up read only repository from github\n        \"remote\":\"https://github.com/ambience-cloud/ambience-repo-base.git\"\n        \n        # or a local git repository (perhaps you cloned it earlier, or used git init to create)\n        \"local\"=\"/opt/elixir/Ambience/git-repos/ambience-repo-base\"\n      }\n\n      collections: [] \n      \n      # Please reenable the default set of collections if you like to pull other info.\n      #collections: [\"ChainSets\", \"Dashboards\",\"DashboardViews\",\"Datasets\",\"Forms\",\"GISExplorer\",\"GEOLayer\",\"RecordEditor\",\n      # \"Repository\",\"RepositoryChunks\", \"SchedulerCalendars\",\"SchedulerTriggers\",\"Theme\", \"Visualisations\", \"Web\", \"WebStore\", \"Workflows\", \"Roles\"]\n    }\n  }\n}",
+  "createdBy": "admin",
+  "createdAt": {
+    "$date": "2023-04-19T01:55:26.825Z"
+  }
+}
