@@ -3,7 +3,7 @@
   "name": "check in progress trigger",
   "description": "",
   "enabled": true,
-  "owner": "643cb981d5149a175a746a1b",
+  "owner": "643d152e2c2efa37c774b970",
   "constraints": {
     "timeZone": "",
     "calendarsInclusive": [],
@@ -35,10 +35,14 @@
     "parameters": "{}"
   },
   "status": {
-    "previousFireTime": null,
+    "previousFireTime": {
+      "ms": {
+        "$numberLong": "1681733110346"
+      }
+    },
     "nextFireTime": {
       "ms": {
-        "$numberLong": "1681776000000"
+        "$numberLong": "1681948800000"
       }
     },
     "inProgress": false
