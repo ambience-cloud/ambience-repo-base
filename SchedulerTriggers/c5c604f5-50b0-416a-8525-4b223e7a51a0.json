@@ -3,7 +3,7 @@
   "name": "clear logs",
   "description": "Run general Housekeeping Job.",
   "enabled": true,
-  "owner": "64409da85ccc701c76397bfa",
+  "owner": "",
   "constraints": {
     "timeZone": "",
     "calendarsInclusive": [],
