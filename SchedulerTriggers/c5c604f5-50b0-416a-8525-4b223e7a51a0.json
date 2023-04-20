@@ -3,7 +3,7 @@
   "name": "clear logs",
   "description": "Run general Housekeeping Job.",
   "enabled": true,
-  "owner": "643d152e2c2efa37c774b970",
+  "owner": "64409da85ccc701c76397bfa",
   "constraints": {
     "timeZone": "",
     "calendarsInclusive": [],
@@ -35,10 +35,14 @@
     "parameters": "{}"
   },
   "status": {
-    "previousFireTime": null,
+    "previousFireTime": {
+      "ms": {
+        "$numberLong": "1681956722105"
+      }
+    },
     "nextFireTime": {
       "ms": {
-        "$numberLong": "1681948800000"
+        "$numberLong": "1682035200000"
       }
     },
     "inProgress": false
