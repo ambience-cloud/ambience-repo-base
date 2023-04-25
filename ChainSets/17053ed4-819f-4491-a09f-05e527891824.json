@@ -297,21 +297,6 @@
           },
           "disabled": false,
           "debug": false
-        },
-        {
-          "stepType": {
-            "id": "config.ReadString"
-          },
-          "name": "Read Config String",
-          "description": "",
-          "icon": "",
-          "color": "",
-          "json": {
-            "key": "elixir.notification.email-from",
-            "field": "email-from"
-          },
-          "disabled": false,
-          "debug": false
         }
       ],
       "testInput": []
