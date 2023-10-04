@@ -2,7 +2,7 @@
   "_id": "bcce8aa6-46cd-4aee-9ff2-704622332c9b",
   "name": "houseKeepingLogsArchiveS3",
   "description": "",
-  "owner": "651bd24204782c0da8616f77",
+  "owner": "",
   "access": {
     "roles": []
   },
