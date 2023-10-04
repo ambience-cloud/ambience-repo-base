@@ -1,0 +1,145 @@
+{
+  "_id": "f3bb464d-ffe2-47af-8016-d1b2ef6c589d",
+  "name": "Test-Email",
+  "description": "",
+  "owner": "",
+  "access": {
+    "roles": []
+  },
+  "enabled": true,
+  "chains": {
+    "ConfigRead": {
+      "name": "ConfigRead",
+      "description": "",
+      "group": "",
+      "icon": "link",
+      "color": "",
+      "steps": [
+        {
+          "stepType": {
+            "id": "config.ReadString"
+          },
+          "name": "Read Config String location",
+          "description": "",
+          "icon": "",
+          "color": "",
+          "json": {
+            "key": "elixir.notification.location",
+            "field": "location"
+          },
+          "disabled": false,
+          "debug": false
+        },
+        {
+          "stepType": {
+            "id": "config.ReadString"
+          },
+          "name": "Read Config String env",
+          "description": "",
+          "icon": "",
+          "color": "",
+          "json": {
+            "key": "elixir.notification.env",
+            "field": "env"
+          },
+          "disabled": false,
+          "debug": false
+        },
+        {
+          "stepType": {
+            "id": "config.ReadString"
+          },
+          "name": "Read Config String email-to",
+          "description": "",
+          "icon": "",
+          "color": "",
+          "json": {
+            "key": "elixir.notification.email-to",
+            "field": "email-to"
+          },
+          "disabled": false,
+          "debug": false
+        },
+        {
+          "stepType": {
+            "id": "config.ReadString"
+          },
+          "name": "Read Config String name",
+          "description": "",
+          "icon": "",
+          "color": "",
+          "json": {
+            "key": "elixir.notification.name",
+            "field": "name"
+          },
+          "disabled": false,
+          "debug": false
+        }
+      ],
+      "testInput": []
+    },
+    "Email": {
+      "name": "Email",
+      "description": "",
+      "group": "",
+      "icon": "link",
+      "color": "",
+      "steps": [
+        {
+          "stepType": {
+            "id": "structure.ChainCall"
+          },
+          "name": "Chain Call",
+          "description": "",
+          "icon": "",
+          "color": "",
+          "json": {
+            "chainName": "ConfigRead"
+          },
+          "disabled": false,
+          "debug": false
+        },
+        {
+          "stepType": {
+            "id": "mail.ComposeMail"
+          },
+          "name": "Compose Mail",
+          "description": "",
+          "icon": "",
+          "color": "",
+          "json": {
+            "body": "Hi ${user},\n\nIf you recieved this message.\n\nYou have successfully configure email for Ambience on ${location} at ${env}. \n\nThanks,\n${location} \n",
+            "includeAttachment": false,
+            "fold": false
+          },
+          "disabled": false,
+          "debug": false
+        },
+        {
+          "stepType": {
+            "id": "mail.SendMail"
+          },
+          "name": "Send Mail",
+          "description": "",
+          "icon": "",
+          "color": "",
+          "json": {
+            "to": "${email-to}",
+            "cc": "",
+            "bcc": "",
+            "subject": "[${location}] Test Email From ${env}"
+          },
+          "disabled": false,
+          "debug": false
+        }
+      ],
+      "testInput": []
+    }
+  },
+  "imports": [],
+  "lastModified": {
+    "$date": {
+      "$numberLong": "1696383281647"
+    }
+  }
+}
