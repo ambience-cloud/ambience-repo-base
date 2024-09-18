@@ -7,7 +7,7 @@
   "version": {
     "$numberInt": "1"
   },
-  "content": "elixir.notification {\n    location = \"Ambience Local\"\n    env = \"Trial\"\n    email-to = \"xxx@abc.com\"\n }",
+  "content": "elixir.notification {\n    location = \"Ambience Local\"\n    env = \"Trial\"\n    email-to = \"xxx@abc.com\"\n user = \"User\"\n }",
   "createdBy": "admin",
   "createdAt": {
     "$date": {
